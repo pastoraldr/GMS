@@ -2,6 +2,11 @@ import math
 import numpy as np
 from scipy import interpolate
 
+##### f dde model
+##### u initial value
+##### h history function
+##### ts time span
+##### k  1/k is the fixed step size
 
 def rk4(f, u, h, p, ts, k):
     tslot = np.linspace(ts[0], ts[1], round((ts[1] - ts[0]) * k))
