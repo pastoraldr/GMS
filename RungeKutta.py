@@ -46,7 +46,7 @@ def rk_fixed(f, u, h, p, ts, k):
 
 
 def rk_adaptive(f, u, h, p, ts, abserr):
-
+    ### adaptive step size
     tsol = ts[0]
     tend = ts[1]
     m = len(u)+1
