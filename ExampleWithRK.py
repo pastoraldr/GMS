@@ -405,5 +405,18 @@ u0 = tmp0
 #prob0 = de.DDEProblem(mmodel, u0, history, tspan, p = vp0)
 #sol0 = de.solve(prob0)
 
-sol0 = rk_fixed(mmodel, u0, history, vp0, tspan, 10)
+# sol0 = rk_fixed(mmodel, u0, history, vp0, tspan, 10)
+sol0 = rk_adaptive(mmodel, u0, history, vp0, tspan, 1e-2)
+
+vp1 = vp0
+u1 = u0
+tspan1 = (DefaultStartTime, 500)
 sol1 = rk_adaptive(mmodel, u0, history, vp0, tspan, 1e-2)
+ut1 = np.transpose(sol1)
+
+tmp = SoltoInit(ut1[0], ut1[1:3], MaxDelay, 500)
+vp2 = vpinit+list(tmp)
+vp2[5] = 1.2*vp2[5]
+u2 = sol1[len(ut1[0])-1][1:3]
+tspan2 = (500, 1000)
+sol2 = rk_adaptive(mmodel, u2, history, vp2, tspan, 1e-2)
