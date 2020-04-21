@@ -419,4 +419,4 @@ vp2 = vpinit+list(tmp)
 vp2[5] = 1.2*vp2[5]
 u2 = sol1[len(ut1[0])-1][1:3]
 tspan2 = (500, 1000)
-sol2 = rk_adaptive(mmodel, u2, history, vp2, tspan, 1e-2)
+sol2 = rk_adaptive(mmodel, u2, history, vp2, tspan2, 1e-2)
