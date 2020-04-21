@@ -10,7 +10,7 @@ from scipy import interpolate
 ##### delta the step
 
 def rk(f, u, h, p, t ,delta):
-    ### the return of f must be an array
+  ### the return of f must be an array
     k1  = delta*f(u, h, p, t)
     k2 = delta* f(u+0.5*k1, h, p, t+0.5*delta)
     k3 = delta* f(u+0.5*k2, h, p, t+0.5*delta)
@@ -18,10 +18,14 @@ def rk(f, u, h, p, t ,delta):
     nu = u+(k1 + k2 + k2 + k3 + k3 + k4) / 6
     return( np.array( [t+delta]+list(nu) ))
 
-
+##########################################################
+##########################################################
+##########################################################
+##########################################################
+##########################################################
+#### RK fixed step size
 
 def rk_fixed(f, u, h, p, ts, k):
-    ### fixed step size, roughly 1/k
     tslot = np.linspace(ts[0], ts[1], round((ts[1] - ts[0]) * k))
     n  = len(tslot)
     m = len(u)+1
@@ -32,21 +36,26 @@ def rk_fixed(f, u, h, p, ts, k):
     def hnew(subp, subt):
         if subt >= tslot[0]:
             idx = np.argmin(abs(tslot - subt))
-            return (uslot[idx])
+            return (uslot[idx][1:m])
         else:
             return (h(p, subt))
 
     for i in range(n-1):
         tt = tslot[i]
         uu = uslot[i][1:m]
-        uslot[i+1] = rk(f, uu, hnew, p, tt ,delta)
+        uslot[i+1] = rk(f, uu, hnew, p, tt , delta)
     return (uslot)
 
 
-
+##########################################################
+##########################################################
+##########################################################
+##########################################################
+##########################################################
+#### RK adaptive step size
 
 def rk_adaptive(f, u, h, p, ts, abserr):
-    ### adaptive step size
+
     tsol = ts[0]
     tend = ts[1]
     m = len(u)+1
@@ -55,9 +64,10 @@ def rk_adaptive(f, u, h, p, ts, abserr):
 
     usol = np.array([tsol] + list(u))
     def hnew(subp, subt):
-        if subt >= tslot[0]:
-            idx = np.argmin(abs(tslot - subt))
-            return (uslot[idx])
+        if subt >= tsol:
+            tmpusol = np.transpose(usol)
+            idx = np.argmin(abs(tmpusol[0] - subt))
+            return (usol[idx][1:m])
         else:
             return (h(p, subt))
 
