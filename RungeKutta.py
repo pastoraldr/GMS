@@ -7,6 +7,7 @@ from scipy import interpolate
 ##### h history function
 ##### p parameter
 ##### t the current time point
+##### ts time span
 ##### delta the step
 
 def rk(f, u, h, p, t ,delta):
